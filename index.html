@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FRONTIER TT | H-FIA 공식 사이트</title>
+<meta name="description" content="초고속 자기부상 에어로 바이크 레이싱, 프론티어 TT 공식 사이트">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="home">
+<div id="site-header"></div>
+<main>
+<div class="hero">
+  <div class="wrap">
+    <div class="round" id="heroRound"></div>
+    <h1 id="heroStage"></h1>
+    <div class="sub" id="heroSub"></div>
+    <div class="count">
+      <div><b id="cd-d">00</b><span>일</span></div>
+      <div><b id="cd-h">00</b><span>시간</span></div>
+      <div><b id="cd-m">00</b><span>분</span></div>
+      <div><b id="cd-s">00</b><span>초</span></div>
+    </div>
+    <div class="count-note" id="countNote">스타트 시그널까지</div>
+    <div class="sprint">
+      <div class="bar"></div>
+      <div class="ends"><span><b>0 km</b> 스타트</span><span>피니시 <b id="heroKm"></b></span></div>
+    </div>
+    <div class="cta">
+      <a href="season.html" class="btn red">시즌 일정 보기</a>
+      <a href="pot.html" class="btn">프론티어 팟 예측하기</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="head"><h2>최신 소식</h2><a href="news.html" class="more">전체 기사</a></div>
+    <div class="news" id="newsCards"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><h2>시즌 현황</h2><a href="season.html" class="more">캘린더와 전체 순위</a></div>
+    <div class="split">
+      <div>
+        <div class="strip" id="strip"></div>
+        <div class="note">다음 무대는 매 라운드 직후 우승자의 추첨으로 정해집니다. 파이널은 스카이폴 브릿지로 고정입니다.</div>
+      </div>
+      <div class="tbl stand"><table>
+        <thead><tr><th>순위</th><th>팀 / 페어</th><th class="pts">포인트</th></tr></thead>
+        <tbody id="standBody" data-limit="3"></tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><h2>처음 오셨나요</h2></div>
+    <div class="intro">
+      <a href="format.html"><h3>경기 방식</h3><p>라이더와 오퍼레이터, 두 사람이 한 팀. 150~250km를 단 한 번에 주파하는 단판 스프린트입니다.</p><span class="more">규정 알아보기</span></a>
+      <a href="stages.html"><h3>공식 8대 무대</h3><p>도심 폐허부터 극지 빙하, 고공 교량까지. 인류 유산 위에 세워진 여덟 개의 코스입니다.</p><span class="more">무대 둘러보기</span></a>
+    </div>
+  </div>
+</section>
+</main>
+<div id="pager"></div>
+<div id="site-footer"></div>
+<script src="assets/data.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
