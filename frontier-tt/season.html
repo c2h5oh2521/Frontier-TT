@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>시즌 | FRONTIER TT</title>
+<meta name="description" content="초고속 자기부상 에어로 바이크 레이싱, 프론티어 TT 공식 사이트">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="season">
+<div id="site-header"></div>
+<main>
+<div class="pagehead"><div class="wrap">
+  <div class="crumb"><a href="index.html">홈</a> / 시즌</div>
+  <h1>시즌</h1>
+  <p>연 8라운드, 약 1.5개월 주기로 열립니다. 휴식기에는 스폰서 리셉션, 기자회견, 테크니컬 데이가 진행됩니다.</p>
+</div></div>
+<section>
+  <div class="wrap">
+    <div class="head">
+      <h2 id="seasonTitle">시즌 캘린더</h2>
+      <p>무대는 미리 정해지지 않습니다. 경기 종료 직후 생중계 앞에서 직전 라운드 우승자가 추첨 볼을 뽑아 다음 무대를 결정합니다.</p>
+    </div>
+    <div class="tbl cal"><table>
+      <thead><tr><th>라운드</th><th>무대</th><th>상태</th><th>우승 페어</th></tr></thead>
+      <tbody id="calBody"></tbody>
+    </table></div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="head"><h2>챔피언십 순위</h2></div>
+    <div class="tbl stand"><table>
+      <thead><tr><th>순위</th><th>팀 / 페어</th><th class="pts">포인트</th></tr></thead>
+      <tbody id="standBody"></tbody>
+    </table></div>
+    <div class="note">라이더 <span style="color:var(--red)">■</span> 오퍼레이터 <span style="color:var(--cyan)">■</span></div>
+  </div>
+</section>
+</main>
+<div id="pager"></div>
+<div id="site-footer"></div>
+<script src="assets/data.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
