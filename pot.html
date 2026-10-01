@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>프론티어 팟 | FRONTIER TT</title>
+<meta name="description" content="초고속 자기부상 에어로 바이크 레이싱, 프론티어 TT 공식 사이트">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="pot">
+<div id="site-header"></div>
+<main>
+<div class="pagehead"><div class="wrap">
+  <div class="crumb"><a href="index.html">홈</a> / 프론티어 팟</div>
+  <h1>프론티어 팟</h1>
+  <p>H-FIA가 인가한 공식 레이싱 예측 플랫폼입니다. 지난 라운드의 판돈과 결과 흐름을 확인하세요.</p>
+</div></div>
+<section>
+  <div class="wrap">
+    <div class="stats" id="potStats"></div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="head"><h2>판돈의 흐름</h2><p>라운드가 거듭될수록 베팅 규모는 커지고, 미적중 상금은 다음 라운드로 이월됩니다.</p></div>
+    <div class="cgrid">
+      <div class="cbox"><h3>라운드별 베팅 총액</h3><div class="sub">단위: M CR (백만 크레딧)</div><div class="vbars" id="potPool"></div></div>
+      <div class="cbox"><h3>라운드별 최대 당첨금</h3><div class="sub">단일 예측 최고 지급액 (M CR)</div><div id="potTop"></div></div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="head"><h2>크래시와 우승 예측</h2></div>
+    <div class="cgrid">
+      <div class="cbox"><h3>라운드별 페어 생존</h3><div class="sub">크래시 예측의 기준이 되는 완주 현황</div><div id="potSurv"></div>
+        <div class="legend"><span><i></i>완주</span><span><i class="no"></i>리타이어</span></div></div>
+      <div class="cbox"><h3 id="oddsTitle">다음 라운드 우승 배당</h3><div class="sub">막대는 배당에서 환산한 우승 기대 비율</div><div id="potOdds"></div></div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="head"><h2>지난 경기 기록</h2></div>
+    <div class="tbl"><table style="min-width:760px">
+      <thead><tr><th>라운드</th><th>무대</th><th>우승</th><th>최초 정지</th><th>완주</th><th>베팅 총액</th><th>최대 당첨금</th><th>적중률</th></tr></thead>
+      <tbody id="potTable"></tbody>
+    </table></div>
+    <div class="pot2" style="margin-top:24px">
+      <div><h3>메인 예측</h3><p>종합 우승 팀, 한계 속도 기록 등 정통 분석을 바탕으로 한 예측입니다.</p></div>
+      <div><h3>크래시 예측</h3><p>최초 정지 팀, 생존 완주 비율 등을 예측합니다. 각 페어의 생존 확률을 가늠하는 척도로도 쓰입니다.</p></div>
+    </div>
+    <div class="warn"><b>규정 제12조</b> 승부 개입, 고의 정지 유도, 사설 조작이 적발되면 자격이 영구 제명됩니다.</div>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/data.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
