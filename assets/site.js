@@ -58,14 +58,19 @@
       <div class="scrim" id="scrim"></div>
     </div>
   </header>`;
+  const CT = window.CONTACT || {};
+  const helpUrl = CT.x ? "https://x.com/" + String(CT.x).replace(/^@/, "") : "";
   const footerEl = $("site-footer");
   if (footerEl) footerEl.outerHTML = `
   <footer>
     <div class="wrap">
       <a href="index.html" class="logo">FRONTIER <b>TT</b></a>
       <div class="links">${MENU.map(m => `<a href="${m.href}">${m.label}</a>`).join("")}</div>
-      <div class="legal">© HYPER-FRONTIER INTERNATIONAL ASSOCIATION<br>
-        본 사이트는 창작 세계관을 위한 가상의 공식 사이트이며, 등장하는 단체·인물·사건은 실제와 관련이 없습니다.</div>
+      <div class="legal">
+        <span>© HYPER-FRONTIER INTERNATIONAL ASSOCIATION<br>
+        본 사이트는 창작 세계관을 위한 가상의 공식 사이트이며, 등장하는 단체·인물·사건은 실제와 관련이 없습니다.</span>
+        ${helpUrl ? `<a class="help" href="${helpUrl}" target="_blank" rel="noopener">고객센터</a>` : ""}
+      </div>
     </div>
   </footer>`;
 
