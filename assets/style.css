@@ -211,19 +211,19 @@ th.r,td.r{text-align:right}
 .tab:hover{color:var(--white)}
 .tab[aria-selected="true"]{color:var(--white);border-color:var(--tc);box-shadow:inset 0 -2px 0 var(--tc)}
 .thead{border-left:3px solid var(--tc);padding:2px 0 2px 20px;margin-bottom:28px}
-.thead .cn{font-family:var(--disp);font-size:12px;letter-spacing:1px;color:var(--tc);font-weight:700}
+.thead .cn{font-size:13px;color:var(--tc);font-weight:700}
 .thead h2{font-size:32px;color:var(--white);font-weight:800;line-height:1.2;letter-spacing:-.5px}
-.thead .kr{color:var(--muted);font-size:15px;margin-bottom:12px}
-.thead .kv{display:grid;grid-template-columns:76px 1fr;gap:4px 12px;font-size:14px;max-width:640px}
-.thead .kv dt{color:var(--muted)}
-.thead .kv dd{color:var(--text)}
+.thead .kr{color:var(--muted);font-size:15px;margin-bottom:18px}
+.thead .slogan{font-size:24px;font-weight:800;color:var(--white);line-height:1.4;letter-spacing:-.4px;margin-bottom:12px}
+.thead .tintro{max-width:660px}
+.thead .tintro p{font-size:15px;margin-bottom:.8em}
 .rec{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .rec span{border:1px solid var(--line);background:var(--panel);padding:6px 12px;font-size:13px;color:var(--muted)}
 .rec b{color:var(--white);font-family:var(--disp)}
 .members{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .mcard{display:grid;grid-template-columns:130px 1fr;background:var(--panel);border:1px solid var(--line)}
 .mcard.soon{border-style:dashed;background:transparent}
-.pt{position:relative;min-height:190px;background:linear-gradient(160deg,color-mix(in srgb,var(--tc) 16%,#10141a),#0d1015);
+.pt{position:relative;min-height:168px;background:linear-gradient(160deg,color-mix(in srgb,var(--tc) 16%,#10141a),#0d1015);
   display:flex;align-items:center;justify-content:center;overflow:hidden}
 .pt .ini{font-family:var(--disp);font-size:56px;font-weight:700;color:color-mix(in srgb,var(--tc) 45%,#1e242c);line-height:1}
 .pt .sn{font-family:var(--disp);font-size:11px;letter-spacing:2px;color:var(--muted);text-align:center;line-height:1.6}
@@ -232,12 +232,8 @@ th.r,td.r{text-align:right}
 .role{font-family:var(--disp);font-size:12px;font-weight:700;letter-spacing:1px}
 .role.r{color:var(--red)} .role.o{color:var(--cyan)}
 .mn{color:var(--white);font-size:20px;font-weight:800;line-height:1.3;margin-top:2px}
-.ms{font-size:13px;color:var(--muted);margin-bottom:10px}
-.mm{font-size:13px;color:var(--text);margin-bottom:10px}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.chip{border:1px solid var(--line);padding:2px 9px;font-size:12px;color:var(--text);font-weight:600}
-.chip.mb{color:var(--amber);border-color:rgba(245,166,35,.4)}
-.mkv{display:grid;grid-template-columns:44px 1fr;gap:6px 10px;font-size:13.5px}
+.ms{font-size:13px;color:var(--muted);margin-bottom:12px}
+.mkv{display:grid;grid-template-columns:44px 1fr;gap:6px 10px;font-size:14px;margin-top:4px}
 .mkv dt{color:var(--muted)}
 .mkv dd{color:var(--text)}
 .mcard.soon .inf{display:flex;flex-direction:column;justify-content:center}
@@ -376,9 +372,9 @@ footer .legal{width:100%;border-top:1px solid var(--line);padding-top:20px;font-
 
   /* 팀 */
   .thead h2{font-size:26px}
-  .thead .kv{grid-template-columns:60px 1fr}
+  .thead .slogan{font-size:20px}
   .mcard{grid-template-columns:96px 1fr}
-  .pt{min-height:150px}
+  .pt{min-height:140px}
   .pt .ini{font-size:42px}
   .mcard .inf{padding:16px 16px 18px}
 
