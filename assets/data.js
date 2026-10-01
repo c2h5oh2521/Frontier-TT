@@ -31,7 +31,7 @@ window.TEAMS = [
    field:"미디어 · 에너지 음료",
    slogan:"심장이 터질 때까지 밟아!",
    intro:["볼트 코어는 에너지 음료와 미디어를 만드는 브랜드입니다. 우리가 파는 건 음료가 아니라 짜릿함이죠!",
-          "가장 공격적인 가속, 가장 화려한 주행으로 중계 앞의 여러분을 열광시키겠습니다. 팬이 열광하는 레이스가 최고의 광고니까요. 라인업은 아직 비밀입니다. 곧 공개하니 기대하세요!"],
+          "가장 공격적인 가속, 가장 화려한 주행으로 중계 앞의 여러분을 열광시키겠습니다. 팬이 열광하는 레이스가 최고의 광고니까요."],
    members:[ {role:"rider", soon:true}, {role:"operator", soon:true} ]},
   {id:"kurosawa", name:"Kurosawa H.I.", kr:"쿠로사와 중공업", alt:"黑澤重工業", color:"#e0343c", colorName:"Red",
    field:"전통 기계공학",
@@ -66,7 +66,15 @@ window.TEAMS = [
 window.SEASON = {
   label: "시즌 캘린더",                          // 예: "2XXX 시즌 캘린더"
   nextRaceStart: "2026-11-14T20:00:00+09:00",   // 다음 라운드 스타트 시각(한국 시간)
-  points: [25, 18, 15, 12, 10, 8],              // 순위별 승점 (1위부터)
+  /* 승점 규정 (소개 페이지의 '승점 규정'과 순위 계산이 모두 이 숫자를 따릅니다) */
+  scoring: {
+    finish:   [20, 15, 12, 10, 8, 6],  // 피니시 포인트: 완주 순위별 (1위부터)
+    survival: 2,                       // 서바이벌 보너스: 완주 팀이 리타이어 팀 1개당 받는 점수
+    firewall: 3,                       // 파이어월: 교란을 가장 많이 막아낸 팀
+    intruder: 2,                       // 인트루더: 교란 침투에 가장 많이 성공한 팀
+    lockdown: -5                       // 락다운 감점: 기체 대파로 마그네틱 락다운을 일으킨 팀
+  },
+  forfeit: [],                         // 승점 몰수 팀 (예: ["viper"]) → 시즌 승점 0, 순위 최하위
 
   /* 무대: img(대표 사진), long(상세 설명, 문단별), risk(핵심 변수) */
   stages: {
@@ -104,18 +112,31 @@ window.SEASON = {
               "시즌의 마지막 라운드로 챔피언십의 승자가 결정되는 무대입니다. 다른 무대와 달리 추첨 없이 고정되어 있습니다."]}
   },
 
-  /* 라운드
+  /* 라운드  (※ 결과는 샘플 값입니다)
      status: done / next / wait / final
-     finish: 완주 팀을 순위순으로 (승점 자동 계산)  dnf: 리타이어 팀  firstStop: 최초 정지 팀
-     pot: pool(총 베팅액), top(최대 당첨금), hit(메인 예측 적중률 %)   */
+     finish:   완주 팀을 순위순으로
+     retire:   대파 없이 스스로 멈춘 팀 (0점)
+     lockdown: 기체 대파로 마그네틱 락다운을 일으킨 팀 (감점)
+     firstStop: 가장 먼저 멈춘 팀
+     firewall / intruder: 네트워크 전과 수상 팀
+     pot: pool(총 베팅액), top(최대 당첨금), hit(메인 예측 적중률 %)
+     → 승점과 순위는 위 기록으로 자동 계산됩니다 */
   rounds: [
-    {stage:"s3", status:"done", finish:["neuro","astra","kurosawa","junk"], dnf:["viper"], firstStop:"viper",
+    {stage:"s3", status:"done",
+     finish:["neuro","astra","volt","kurosawa"], retire:["junk"], lockdown:["viper"], firstStop:"viper",
+     firewall:"neuro", intruder:"junk",
      pot:{pool:412, top:38.4, hit:31}},
-    {stage:"s1", status:"done", finish:["astra","neuro","viper","kurosawa"], dnf:["junk"], firstStop:"junk",
+    {stage:"s1", status:"done",
+     finish:["astra","viper","neuro","volt","kurosawa"], retire:[], lockdown:["junk"], firstStop:"junk",
+     firewall:"viper", intruder:"astra",
      pot:{pool:538, top:22.1, hit:44}},
-    {stage:"s6", status:"done", finish:["neuro","kurosawa","astra"], dnf:["junk","viper"], firstStop:"junk",
+    {stage:"s6", status:"done",
+     finish:["neuro","kurosawa","astra"], retire:["volt"], lockdown:["junk","viper"], firstStop:"junk",
+     firewall:"viper", intruder:"junk",
      pot:{pool:705, top:91.7, hit:18}},
-    {stage:"s2", status:"done", finish:["kurosawa","neuro","astra","junk","viper"], dnf:[], firstStop:null,
+    {stage:"s2", status:"done",
+     finish:["kurosawa","neuro","astra","volt","junk","viper"], retire:[], lockdown:[], firstStop:null,
+     firewall:"neuro", intruder:"volt",
      pot:{pool:861, top:12.6, hit:52}},
     {stage:"s5", status:"next"},
     {status:"wait"},
@@ -132,6 +153,7 @@ window.POT = {
     {team:"neuro", odds:2.6},
     {team:"astra", odds:3.4},
     {team:"kurosawa", odds:3.9},
+    {team:"volt", odds:6.2},
     {team:"viper", odds:7.5},
     {team:"junk", odds:12.0}
   ]
