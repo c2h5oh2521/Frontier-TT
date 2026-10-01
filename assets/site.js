@@ -134,7 +134,7 @@
       const btn = e.target.closest(".acc-btn"); if (!btn) return;
       const item = btn.parentElement, willOpen = !item.classList.contains("open");
       setOpen(item, willOpen);
-      history.replaceState(null, "", willOpen ? "#" + item.id : location.pathname + location.search);
+      try { history.replaceState(null, "", willOpen ? "#" + item.id : location.pathname + location.search); } catch (_) {}
     });
     const fromHash = () => {
       const m = location.hash.match(/^#n(\d+)$/), item = m && $("n" + m[1]);
@@ -259,32 +259,28 @@
       if (m.soon) return `<article class="mcard soon" style="--tc:${t.color}">
         <div class="pt"><span class="sn">COMING<br>SOON</span></div>
         <div class="inf"><div class="role ${rc}">${role}</div><div class="mn">공개 예정</div></div></article>`;
-      const sub = [m.en, m.alt].filter(Boolean).join(" · ");
-      const meta = [m.age ? m.age + "세" : "", m.sex, m.nation].filter(Boolean).join(" · ");
-      const chips = [m.speech ? `<span class="chip">${esc(m.speech)}</span>` : "", m.mbti ? `<span class="chip mb">${esc(m.mbti)}</span>` : ""].join("");
+      const sub = [m.kr ? m.en : "", m.alt].filter(Boolean).join(" · ");
       const kv = [];
-      if (m.looks) kv.push(["외형", m.looks]);
-      if (m.bio) kv.push(["이력", m.bio]);
-      if (m.persona) kv.push(["성향", m.persona]);
-      if (m.lang) kv.push(["언어", m.lang.join(" · ")]);
+      if (m.age) kv.push(["나이", m.age + "세"]);
+      if (m.sex) kv.push(["성별", m.sex]);
+      if (m.nation) kv.push(["국적", m.nation]);
       return `<article class="mcard" style="--tc:${t.color}">
-        <div class="pt"><span class="ini">${esc((m.en || "?")[0])}</span>${m.img ? `<img src="${esc(m.img)}" alt="${esc(m.kr || m.en)}" loading="lazy" onerror="this.remove()">` : ""}</div>
+        <div class="pt"><span class="ini">${esc((m.en || m.kr || "?")[0])}</span>${m.img ? `<img src="${esc(m.img)}" alt="${esc(m.kr || m.en)}" loading="lazy" onerror="this.remove()">` : ""}</div>
         <div class="inf">
           <div class="role ${rc}">${role}</div>
           <div class="mn">${esc(m.kr || m.en)}</div>
-          <div class="ms">${esc(sub)}</div>
-          <div class="mm">${esc(meta)}</div>
-          ${chips ? `<div class="chips">${chips}</div>` : ""}
+          ${sub ? `<div class="ms">${esc(sub)}</div>` : ""}
           <dl class="mkv">${kv.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
         </div></article>`;
     };
     const panel = t => {
       const row = rowOf[t.id], started = row.fin + row.dnf > 0;
       return `<div class="thead" style="--tc:${t.color}">
-          <div class="cn">TEAM COLOR · ${esc(t.colorName.toUpperCase())}</div>
+          <div class="cn">${esc(t.field)}</div>
           <h2>${esc(t.name)}</h2>
           <div class="kr">${esc(t.kr)}${t.alt ? " " + esc(t.alt) : ""}</div>
-          <dl class="kv"><dt>분야</dt><dd>${esc(t.field)}</dd><dt>추구</dt><dd>${esc(t.pursuit)}</dd>${t.about ? `<dt>소개</dt><dd>${esc(t.about)}</dd>` : ""}</dl>
+          <blockquote class="slogan">${esc(t.slogan)}</blockquote>
+          <div class="tintro">${(t.intro || []).map(p => `<p>${esc(p)}</p>`).join("")}</div>
           <div class="rec">${started
             ? `<span>순위 <b>${rankOf(t.id)}위</b></span><span>승점 <b>${row.pts}</b></span><span>우승 <b>${row.wins}회</b></span><span>완주 <b>${row.fin}회</b></span>`
             : `<span>시즌 참가 준비 중</span>`}</div>
@@ -297,7 +293,7 @@
       const t = TM[id] || TEAMS[0];
       tabs.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", b.dataset.id === t.id));
       $("teamPanel").innerHTML = panel(t);
-      if (push) history.replaceState(null, "", "#" + t.id);
+      if (push) { try { history.replaceState(null, "", "#" + t.id); } catch (_) {} }
     };
     tabs.addEventListener("click", e => { const b = e.target.closest(".tab"); if (b) select(b.dataset.id, true); });
     select(location.hash.slice(1));
