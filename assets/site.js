@@ -9,7 +9,7 @@
   const page = document.body.dataset.page || "home";
   const TM = Object.fromEntries(TEAMS.map(t => [t.id, t]));
   const tName = id => (TM[id] ? TM[id].name : "-");
-  const tLabel = id => (TM[id] ? `<span class="tdot" style="--tc:${TM[id].color}"></span>` : "") + esc(tName(id));
+  const tLabel = id => `<span class="tn">${TM[id] ? `<span class="tdot" style="--tc:${TM[id].color}"></span>` : ""}${esc(tName(id))}</span>`;
   const stOf = r => S.stages[r.stage];
 
   /* ── 메뉴 (순서 = 메뉴 순서) ── */
@@ -167,14 +167,14 @@
     const win = r.finish && r.finish.length ? tLabel(r.finish[0]) : "<span style='color:var(--muted)'>—</span>";
     return `<tr class="${r.status === "next" ? "is-next" : ""}">
       <td class="num">R${pad(i + 1)}</td><td class="stage">${stageCell}</td>
-      <td><span class="tag ${cls}">${label}</span></td><td class="win">${win}</td></tr>`;
+      <td><span class="tag ${cls}">${label}</span></td><td class="win${r.finish && r.finish.length ? "" : " empty"}">${win}</td></tr>`;
   }).join("");
 
   /* ── 순위 ── */
   const pairNames = t => t.members.map(m => {
     const cls = m.role === "rider" ? "r" : "o";
-    return m.soon ? `<span class="${cls} soon">미공개</span>` : `<span class="${cls}">${esc(m.kr || m.en)}</span>`;
-  }).join(" / ");
+    return m.soon ? `<span class="pn ${cls} soon">미공개</span>` : `<span class="pn ${cls}">${esc(m.kr || m.en)}</span>`;
+  }).join('<span class="sep"> / </span>');
   const sb = $("standBody");
   if (sb) {
     const lim = parseInt(sb.dataset.limit) || ranked.length;
@@ -346,12 +346,13 @@
         <span class="v">×${o.odds.toFixed(1)}<small>${Math.round(p)}%</small></span></div>`;
     }).join("");
 
+    $("potTable").closest(".tbl").classList.add("rcards");
     $("potTable").innerHTML = done.map(x => {
       const r = x.r, fin = (r.finish || []).length, n = fin + (r.dnf || []).length;
       return `<tr><td class="num">R${pad(x.i + 1)}</td>
         <td class="stage"><b>${esc(stOf(r).name)}</b><span>${esc(stOf(r).type)}</span></td>
-        <td>${tLabel(r.finish[0])}</td><td>${r.firstStop ? tLabel(r.firstStop) : "<span style='color:var(--muted)'>없음</span>"}</td>
-        <td class="pts">${fin}/${n}</td><td class="pts">${money(r.pot.pool)}</td><td class="pts">${money(r.pot.top)}</td><td class="pts">${r.pot.hit}%</td></tr>`;
+        <td data-l="우승">${tLabel(r.finish[0])}</td><td data-l="최초 정지">${r.firstStop ? tLabel(r.firstStop) : "<span style='color:var(--muted)'>없음</span>"}</td>
+        <td class="pts" data-l="완주">${fin}/${n}</td><td class="pts" data-l="베팅 총액">${money(r.pot.pool)}</td><td class="pts" data-l="최대 당첨금">${money(r.pot.top)}</td><td class="pts" data-l="적중률">${r.pot.hit}%</td></tr>`;
     }).join("");
   }
 })();
