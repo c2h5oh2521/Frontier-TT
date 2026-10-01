@@ -5,59 +5,60 @@
       비워두면 자동으로 빈 이미지 칸이 표시됩니다.
    ════════════════════════════════════════════════════════════ */
 
-/* ── 팀 · 멤버 ── 
-   role: rider / operator   soon:true 이면 COMING SOON 카드
-   쓰지 않는 항목은 지워도 됩니다 */
+/* ── 팀 · 멤버 ──
+   slogan: 팀 한 줄 구호 / intro: 팀 소개문 (문단 배열, 그 팀의 말투로)
+   멤버는 이름·나이·성별·국적만 표시됩니다.  soon:true 이면 COMING SOON 카드 */
 window.TEAMS = [
   {id:"astra", name:"Astra Aero", kr:"아스트라 에어로", color:"#a78bfa", colorName:"Purple",
-   field:"군수 · 우주항공", pursuit:"공기역학적 완벽, 압도적인 직선 속도 추구.",
+   field:"군수 · 우주항공",
+   slogan:"오차는 허용하지 않습니다.",
+   intro:["아스트라 에어로는 군수와 우주항공 분야에서 오랫동안 비행체를 설계해 온 기업입니다. 우리가 연구하는 것은 단 하나, 공기와의 마찰을 없애는 형상입니다.",
+          "곡선 하나, 각도 하나까지 계산으로 결정합니다. 그 결과는 직선 구간에서 증명합니다. 가장 빠른 기체, 그것이 우리가 내놓는 답입니다."],
    members:[
-     {role:"rider", en:"Tobias Kirsch", kr:"토비아스 키르슈", age:25, sex:"남", nation:"독일(GER)",
-      looks:"187cm · 마른 체구, 흑발, 자안(紫眼), 날카로운 인상",
-      persona:"천재. 오차 없는 계획과 수행력, 강한 승부욕. 예민하고 까칠함.",
-      speech:"반말", mbti:"ISFJ", lang:["EN","GER"], img:""},
-     {role:"operator", en:"Verney Labossière", kr:"베르네 라보시에르", age:32, sex:"남", nation:"프랑스(FRA)",
-      lang:["EN","FRA"], img:""}
+     {role:"rider", en:"Tobias Kirsch", kr:"토비아스 키르슈", age:25, sex:"남", nation:"독일", img:""},
+     {role:"operator", en:"Verney Labossière", kr:"베르네 라보시에르", age:32, sex:"남", nation:"프랑스", img:""}
    ]},
   {id:"viper", name:"Viper-Sec", kr:"바이퍼-섹", color:"#34d399", colorName:"Green",
-   field:"글로벌 사이버 보안", pursuit:"철벽 방어망, 정보전 통제, 치밀한 해킹 추구.",
+   field:"글로벌 사이버 보안",
+   slogan:"먼저 읽고, 먼저 막습니다.",
+   intro:["바이퍼-섹은 전 세계 네트워크의 방어망을 설계하는 보안 기업입니다. 뚫는 법을 아는 사람만이 막는 법도 압니다.",
+          "우리가 연구하는 것은 정보의 흐름입니다. 상대의 교란을 차단하고, 필요하다면 한 발 먼저 침투합니다. 레이스에서도 정보를 쥔 쪽이 이깁니다."],
    members:[
-     {role:"rider", en:"Terence Tunnell", kr:"테렌스 턴넬", age:26, sex:"남", nation:"캐나다(CAN)", lang:["EN"], img:""},
+     {role:"rider", en:"Terence Tunnell", kr:"테렌스 턴넬", age:26, sex:"남", nation:"캐나다", img:""},
      {role:"operator", soon:true}
    ]},
   {id:"volt", name:"Volt Core", kr:"볼트 코어", color:"#f472b6", colorName:"Pink",
-   field:"미디어 · 에너지 음료", pursuit:"어그레시브한 가속, 극한의 스릴과 쇼맨십 추구.",
+   field:"미디어 · 에너지 음료",
+   slogan:"심장이 터질 때까지 밟아!",
+   intro:["볼트 코어는 에너지 음료와 미디어를 만드는 브랜드입니다. 우리가 파는 건 음료가 아니라 짜릿함이죠!",
+          "가장 공격적인 가속, 가장 화려한 주행으로 중계 앞의 여러분을 열광시키겠습니다. 팬이 열광하는 레이스가 최고의 광고니까요. 라인업은 아직 비밀입니다. 곧 공개하니 기대하세요!"],
    members:[ {role:"rider", soon:true}, {role:"operator", soon:true} ]},
   {id:"kurosawa", name:"Kurosawa H.I.", kr:"쿠로사와 중공업", alt:"黑澤重工業", color:"#e0343c", colorName:"Red",
-   field:"전통 기계공학", pursuit:"무식할 만큼의 내구도. 바닥에 처박혀도 멈추지 않는 강철 돌파력.",
+   field:"전통 기계공학",
+   slogan:"쓰러져도 달립니다.",
+   intro:["쿠로사와 중공업은 오직 기계 하나만 만들어 온 회사입니다. 우리가 연구하는 것은 부서지지 않는 몸체입니다.",
+          "화려한 전자장비는 다른 팀이 자랑하면 됩니다. 우리 기체는 바닥에 처박혀 긁히고 패여도 끝까지 달립니다. 차체에 남은 흠집이 곧 우리의 이름값입니다."],
    members:[
-     {role:"rider", en:"Tsunemori Tsuyano", kr:"츠네모리 츠야노", alt:"常森艶野", age:21, sex:"여", nation:"일본(JPN)",
-      looks:"173cm · 잔근육, 흑발 숏컷, 적안, 웃는 상",
-      persona:"보수적인 기업 안에서 실력으로 인정받은 샛별. 밝고 싹싹함.",
-      speech:"존댓말", mbti:"ENFP", lang:["EN","JPN"], img:""},
+     {role:"rider", en:"Tsunemori Tsuyano", kr:"츠네모리 츠야노", alt:"常森艶野", age:21, sex:"여", nation:"일본", img:""},
      {role:"operator", soon:true}
    ]},
   {id:"neuro", name:"Neuro-Medica", kr:"뉴로-메디카", color:"#f4f6f8", colorName:"White",
-   field:"첨단 생명공학 · 의료", pursuit:"라이더의 피로도 최소화. 생체 데이터로 극한의 생존율을 입증.",
+   field:"첨단 생명공학 · 의료",
+   slogan:"살아서 돌아오는 것이 기록입니다.",
+   intro:["뉴로-메디카는 신경과 생체 신호를 다루는 첨단 의료 기업입니다. 우리가 연구하는 것은 사람이 극한에서 얼마나 버틸 수 있는가, 그리고 그 한계를 어떻게 늦출 것인가입니다.",
+          "라이더의 피로를 최소화하고 모든 주행을 생체 데이터로 기록해 생존율을 증명하겠습니다. 가장 빠른 팀보다 가장 오래 달리는 팀이 되겠습니다."],
    members:[
-     {role:"rider", en:"Jeffrey Roth", kr:"제프리 로스", age:42, sex:"남", nation:"미국(USA)",
-      looks:"188cm · 근육질, 백발 짧은 머리, 흑안, 흉터 다수. 양다리 기계의족",
-      bio:"TT의 전설. 최고령이자 최다 우승 기록을 계속 갱신 중.",
-      persona:"능글맞음.", speech:"반말", mbti:"ESTJ", lang:["EN"], img:""},
-     {role:"operator", en:"Kang Hyo-jun", kr:"강효준", age:27, sex:"남", nation:"한국(KOR)",
-      looks:"177cm · 마른 체구, 흑발 흑안, 무테안경, 날카로운 눈매",
-      bio:"고학력자. 해킹 대회 우승 다수.",
-      persona:"무뚝뚝함.", speech:"존댓말", mbti:"ISTJ", lang:["EN","KOR"], img:""}
+     {role:"rider", en:"Jeffrey Roth", kr:"제프리 로스", age:42, sex:"남", nation:"미국", img:""},
+     {role:"operator", en:"Kang Hyo-jun", kr:"강효준", age:27, sex:"남", nation:"한국", img:""}
    ]},
   {id:"junk", name:"Junk-Yard", kr:"정크-야드 신디케이트", color:"#c2693c", colorName:"Rust",
-   field:"슬럼가 고철 연합", pursuit:"규격 외 개조, 날것의 생존.",
-   about:"비공식 팀이지만 슬럼 출신 성공자들의 막대한 후원으로 TT 진출에 성공했고, 브랜드화로 명맥을 이어가고 있다.",
+   field:"슬럼가 고철 연합",
+   slogan:"우승 가자.",
+   intro:["저희 정크-야드 신디케이트는 슬럼가에서 모은 고철로 기체를 만드는 연합이고, 뭘 연구하냐면 그게, 규격 같은 건 없고 설계도도 없고 아무튼 굴러가는데,",
+          "아 소개 쓰는 거 길다. 후원해 주시는 형님 누님들 보고 계시죠? 우승합니다. 진짜로 합니다. 소개 끝. 우승. 우승 가자."],
    members:[
-     {role:"rider", en:"Tessare", kr:"테사레", alt:"본명 불명", age:28, sex:"남", nation:"호주(AUS)",
-      looks:"192cm · 거구, 왼쪽 안대(실명)", lang:["EN"], img:""},
-     {role:"operator", en:"Nabi", kr:"나비", alt:"본명 불명", age:18, sex:"여", nation:"국적 불명",
-      looks:"163cm · 마른 체구, 백금발 포니테일, 주황안, 고양이상, 캐주얼 복장",
-      persona:"틱틱거림.", speech:"반말", mbti:"ISTP", lang:["EN"], img:""}
+     {role:"rider", en:"Tessare", kr:"테사레", age:28, sex:"남", nation:"호주", img:""},
+     {role:"operator", en:"Nabi", kr:"나비", age:18, sex:"여", nation:"불명", img:""}
    ]}
 ];
 
