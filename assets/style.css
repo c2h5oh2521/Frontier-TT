@@ -10,13 +10,14 @@
 html{scroll-padding-top:80px}
 body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.7;
   padding-bottom:env(safe-area-inset-bottom,0px);-webkit-font-smoothing:antialiased;
-  word-break:keep-all;overflow-wrap:anywhere;min-height:100vh;display:flex;flex-direction:column}
+  word-break:keep-all;overflow-wrap:break-word;min-height:100vh;display:flex;flex-direction:column}
 main{flex:1}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit}
 img{max-width:100%}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.tn{white-space:nowrap}
 .tdot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--tc,var(--muted));margin-right:8px;vertical-align:1px}
 
 /* ── 헤더 ── */
@@ -154,6 +155,7 @@ th.r,td.r{text-align:right}
 .mx .pd{color:var(--white)}
 .mx .dnf{color:var(--red);font-size:12px;font-weight:700}
 .mx .na{color:var(--line)}
+.mx td:first-child,.mx th:first-child{position:sticky;left:0;z-index:1;background:var(--panel)}
 
 /* ── 소개 페이지 ── */
 .pairs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
@@ -223,7 +225,7 @@ th.r,td.r{text-align:right}
 .members{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .mcard{display:grid;grid-template-columns:130px 1fr;background:var(--panel);border:1px solid var(--line)}
 .mcard.soon{border-style:dashed;background:transparent}
-.pt{position:relative;min-height:168px;background:linear-gradient(160deg,color-mix(in srgb,var(--tc) 16%,#10141a),#0d1015);
+.pt{position:relative;aspect-ratio:3/4;align-self:start;background:linear-gradient(160deg,color-mix(in srgb,var(--tc) 16%,#10141a),#0d1015);
   display:flex;align-items:center;justify-content:center;overflow:hidden}
 .pt .ini{font-family:var(--disp);font-size:56px;font-weight:700;color:color-mix(in srgb,var(--tc) 45%,#1e242c);line-height:1}
 .pt .sn{font-family:var(--disp);font-size:11px;letter-spacing:2px;color:var(--muted);text-align:center;line-height:1.6}
@@ -407,6 +409,68 @@ footer .help:hover{color:var(--white);border-color:var(--white)}
   .od{grid-template-columns:1fr auto;gap:6px 10px}
   .od .t{grid-column:1 / 3;grid-row:2}
 }
+
+/* ════ 모바일 다듬기 ════ */
+@media (max-width:640px){
+  /* 홈 시즌 현황: 2열로 넓게 */
+  .strip{grid-template-columns:1fr 1fr}
+  .strip div{min-height:0;padding:12px 14px;flex-direction:row;align-items:center;gap:12px}
+  .strip .n{margin-top:0;font-size:14px}
+
+  /* 팀 탭: 옆으로 밀지 않고 한눈에 */
+  .tabs{display:grid;grid-template-columns:1fr 1fr;overflow:visible;padding-bottom:0;margin-bottom:22px}
+  .tab{justify-content:flex-start;padding:12px 14px;font-size:14px}
+  .rec{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .rec span{text-align:center}
+  .thead{padding-left:16px}
+
+  /* 멤버 카드 */
+  .mcard{grid-template-columns:104px 1fr}
+  .mcard .inf{padding:14px 16px 16px}
+  .mn{font-size:19px}
+  .ms{margin-bottom:10px}
+  .mkv{grid-template-columns:repeat(3,auto);grid-template-rows:auto auto;grid-auto-flow:column;justify-content:start;gap:0 22px}
+  .mkv dt{font-size:12px}
+  .mkv dd{color:var(--white);font-weight:600}
+
+  /* 순위표: 라이더/오퍼레이터 줄바꿈 */
+  .stand .pn{display:block}
+  .stand .sep{display:none}
+  .mx{min-width:0 !important}
+  .mx td,.mx th{padding:11px 8px}
+  .mx td:first-child,.mx th:first-child{padding-left:12px}
+
+  /* 캘린더: 결과 없는 칸 숨김 */
+  .cal td.win.empty{display:none}
+
+  /* 무대 팝업 정보칸 */
+  .facts{grid-template-columns:1fr 1fr}
+  .facts div:last-child{grid-column:1 / 3}
+
+  /* 팟: 수치·그래프 */
+  .stat b{font-size:22px}
+  .hb{grid-template-columns:1fr auto;gap:6px 10px}
+  .hb .l{display:flex;gap:8px;align-items:baseline}
+  .hb .l b{display:inline}
+  .hb .t{grid-column:1 / 3;grid-row:2}
+  .hb .v{grid-row:1;grid-column:2}
+  .vb .lb{font-size:11px;text-align:center}
+
+  /* 팟 지난 경기 기록: 표 → 카드 */
+  .rcards{border:0;overflow:visible}
+  .rcards table{min-width:0 !important}
+  .rcards thead{display:none}
+  .rcards tr{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;padding:16px;margin-bottom:8px;border:1px solid var(--line);background:var(--panel)}
+  .rcards td{padding:0;border:0}
+  .rcards td.num{grid-column:1 / 3;width:auto;font-size:13px;color:var(--red)}
+  .rcards td.stage{grid-column:1 / 3;margin-top:-8px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .rcards td[data-l]::before{content:attr(data-l);display:block;font-family:var(--body);font-size:12px;font-weight:500;color:var(--muted);margin-bottom:2px}
+  .rcards td.pts{text-align:left}
+
+  /* 푸터 메뉴 4열 정렬 */
+  footer .links{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 10px;width:100%}
+}
+
 @media (prefers-reduced-motion:reduce){
   .sprint .bar::before{animation:none;width:100%}
   .nav,.scrim,.acc-panel,.acc-inner,.acc-chev,.scard{transition:none}
