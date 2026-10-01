@@ -24,17 +24,31 @@
     {id:"fia",       href:"fia.html",       label:"H-FIA"}
   ];
 
-  /* ── 순위 계산 (라운드의 finish/dnf에서 자동) ── */
-  const rows = TEAMS.map(t => ({team: t, pts: 0, wins: 0, fin: 0, dnf: 0, pos: []}));
+  /* ── 승점 계산 (라운드 기록에서 자동) ── */
+  const SC = Object.assign({finish: S.points || [], survival: 0, firewall: 0, intruder: 0, lockdown: 0}, S.scoring || {});
+  const forfeit = new Set(S.forfeit || []);
+  const retOf = r => r.retire || r.dnf || [];
+  const ldOf = r => r.lockdown || [];
+  const rows = TEAMS.map(t => ({team: t, pts: 0, wins: 0, fin: 0, ret: 0, ld: 0, pos: [],
+                                b: {fin: 0, surv: 0, net: 0, pen: 0}, forfeit: forfeit.has(t.id)}));
   const rowOf = Object.fromEntries(rows.map(r => [r.team.id, r]));
   S.rounds.forEach((r, ri) => {
-    (r.finish || []).forEach((id, i) => {
+    if (!r.finish) return;
+    const out = retOf(r).length + ldOf(r).length;
+    r.finish.forEach((id, i) => {
       const row = rowOf[id]; if (!row) return;
-      row.pts += (S.points[i] || 0); row.fin++; if (i === 0) row.wins++; row.pos[ri] = i + 1;
+      row.b.fin += SC.finish[i] || 0; row.b.surv += SC.survival * out;
+      row.fin++; if (i === 0) row.wins++; row.pos[ri] = i + 1;
     });
-    (r.dnf || []).forEach(id => { const row = rowOf[id]; if (row) { row.dnf++; row.pos[ri] = "DNF"; } });
+    retOf(r).forEach(id => { const row = rowOf[id]; if (row) { row.ret++; row.pos[ri] = "RET"; } });
+    ldOf(r).forEach(id => { const row = rowOf[id]; if (row) { row.ld++; row.b.pen += SC.lockdown; row.pos[ri] = "LD"; } });
+    if (rowOf[r.firewall]) rowOf[r.firewall].b.net += SC.firewall;
+    if (rowOf[r.intruder]) rowOf[r.intruder].b.net += SC.intruder;
   });
-  const ranked = rows.slice().sort((a, b) => b.pts - a.pts || b.wins - a.wins || b.fin - a.fin);
+  rows.forEach(r => { r.pts = r.forfeit ? 0 : r.b.fin + r.b.surv + r.b.net + r.b.pen; });
+  const ranked = rows.slice().sort((a, b) =>
+    (a.forfeit - b.forfeit) || b.pts - a.pts || b.wins - a.wins || b.fin - a.fin || a.ld - b.ld);
+  const signed = v => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v);
   const rankOf = id => ranked.findIndex(r => r.team.id === id) + 1;
 
   /* ── 헤더 ── */
@@ -183,7 +197,7 @@
       <td class="num">${i + 1}</td>
       <td class="pair-cell"><b>${tLabel(r.team.id)}</b><br>${pairNames(r.team)}</td>
       ${full ? `<td class="r pts">${r.wins}</td>` : ""}
-      <td class="r pts">${r.pts}</td></tr>`).join("");
+      <td class="r pts">${r.forfeit ? '<span class="ff">몰수</span>' : r.pts}</td></tr>`).join("");
   }
   if ($("matrixHead")) {
     const doneIdx = S.rounds.map((r, i) => r.finish ? i : -1).filter(i => i >= 0);
@@ -192,10 +206,23 @@
       doneIdx.map(i => {
         const p = r.pos[i];
         if (p === undefined) return `<td class="na">–</td>`;
-        if (p === "DNF") return `<td class="dnf">DNF</td>`;
+        if (p === "LD") return `<td class="dnf">LD</td>`;
+        if (p === "RET") return `<td class="ret">RET</td>`;
         return `<td class="${p <= 3 ? "p" + p : "pd"}">${p}</td>`;
       }).join("")}</tr>`).join("");
   }
+
+  if ($("pointsBody")) $("pointsBody").innerHTML = ranked.map(r => {
+    const v = (n, cls) => `<td class="${n === 0 ? "na" : cls || ""}">${n === 0 ? "–" : signed(n)}</td>`;
+    return `<tr><td class="pair-cell"><b style="font-size:14px">${tLabel(r.team.id)}</b></td>
+      <td class="tot">${r.forfeit ? '<span class="ff">몰수</span>' : r.pts}</td>
+      ${v(r.b.fin)}${v(r.b.surv)}${v(r.b.net)}${v(r.b.pen, "dnf")}</tr>`;
+  }).join("");
+
+  if ($("finishTable")) $("finishTable").innerHTML = SC.finish.map((p, i) => `<div><span>${i + 1}위</span><b>${p}</b></div>`).join("");
+  document.querySelectorAll("[data-sc]").forEach(el => {
+    const v = SC[el.dataset.sc]; if (typeof v === "number") { el.textContent = signed(v); el.classList.toggle("neg", v < 0); }
+  });
 
   /* ── 무대 카드 + 상세 모달 ── */
   const phHtml = (img, label, no, text) =>
@@ -279,7 +306,7 @@
         </div></article>`;
     };
     const panel = t => {
-      const row = rowOf[t.id], started = row.fin + row.dnf > 0;
+      const row = rowOf[t.id], started = row.fin + row.ret + row.ld > 0;
       return `<div class="thead" style="--tc:${t.color}">
           <div class="cn">${esc(t.field)}</div>
           <h2>${esc(t.name)}</h2>
@@ -287,7 +314,7 @@
           <blockquote class="slogan">${esc(t.slogan)}</blockquote>
           <div class="tintro">${(t.intro || []).map(p => `<p>${esc(p)}</p>`).join("")}</div>
           <div class="rec">${started
-            ? `<span>순위 <b>${rankOf(t.id)}위</b></span><span>승점 <b>${row.pts}</b></span><span>우승 <b>${row.wins}회</b></span><span>완주 <b>${row.fin}회</b></span>`
+            ? `<span>순위 <b>${rankOf(t.id)}위</b></span><span>승점 <b>${row.forfeit ? "몰수" : row.pts}</b></span><span>우승 <b>${row.wins}회</b></span><span>완주 <b>${row.fin}회</b></span>`
             : `<span>시즌 참가 준비 중</span>`}</div>
         </div>
         <div class="members">${t.members.map(m => memberCard(m, t)).join("")}</div>`;
@@ -331,10 +358,10 @@
       <span class="v">${fmt(x.r.pot.top)}</span></div>`).join("");
 
     $("potSurv").innerHTML = done.map(x => {
-      const r = x.r, fin = (r.finish || []).length, no = (r.dnf || []).length;
+      const r = x.r, fin = (r.finish || []).length, ret = retOf(r).length, ld = ldOf(r).length;
       return `<div class="sv"><span class="l">R${pad(x.i + 1)}</span>
-        <span class="sq">${"<i></i>".repeat(fin)}${'<i class="no"></i>'.repeat(no)}</span>
-        <span class="tx">${fin}/${fin + no} 완주 · 최초 정지 ${r.firstStop ? esc(tName(r.firstStop)) : "없음"}</span></div>`;
+        <span class="sq">${"<i></i>".repeat(fin)}${'<i class="rt"></i>'.repeat(ret)}${'<i class="no"></i>'.repeat(ld)}</span>
+        <span class="tx">${fin}/${fin + ret + ld} 완주 · 최초 정지 ${r.firstStop ? esc(tName(r.firstStop)) : "없음"}</span></div>`;
     }).join("");
 
     if (nextR) $("oddsTitle").textContent = `R${pad(nextIdx + 1)} ${stOf(nextR) ? stOf(nextR).name : ""} 우승 배당`;
@@ -348,7 +375,7 @@
 
     $("potTable").closest(".tbl").classList.add("rcards");
     $("potTable").innerHTML = done.map(x => {
-      const r = x.r, fin = (r.finish || []).length, n = fin + (r.dnf || []).length;
+      const r = x.r, fin = (r.finish || []).length, n = fin + retOf(r).length + ldOf(r).length;
       return `<tr><td class="num">R${pad(x.i + 1)}</td>
         <td class="stage"><b>${esc(stOf(r).name)}</b><span>${esc(stOf(r).type)}</span></td>
         <td data-l="우승">${tLabel(r.finish[0])}</td><td data-l="최초 정지">${r.firstStop ? tLabel(r.firstStop) : "<span style='color:var(--muted)'>없음</span>"}</td>
